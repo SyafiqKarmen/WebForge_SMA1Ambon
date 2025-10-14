@@ -23,6 +23,8 @@ Kumpulan tugas Informatika di kelas **12-F1** sebagai arsip tugas-tugas **Web De
 **14/10/2025** — *Tugas koding pertama: Latihan CSS*  
 **File:** 
 [⬇️ Download TugasLatihanCSS_14-10-2025.zip](https://github.com/SyafiqKarmen/WebForge_SMA1Ambon/raw/main/TugasLatihanCSS_14-10-2025.zip)
+**Source Code:**
+[Lihat Source Code Latihan CSS](./SourceCodeTugasLatihanCSS)
 <blockquote>
 Mempelajari implementasi CSS dalam HTML: Internal, External, dan Inline.
 </blockquote>
