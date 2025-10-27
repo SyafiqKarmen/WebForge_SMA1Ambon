@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".assets/logos/Logo_Kelas.png" alt="Logo Kelas" width="250">
+  <img src="assets/logos/Logo_Kelas.png" alt="Logo Kelas" width="250">
 </p>
 
 # Deskripsi Singkat
@@ -10,7 +10,7 @@ Kumpulan tugas Informatika di kelas **12-F1** sebagai arsip tugas-tugas **Web De
 ---
 
 <p align="center">
-  <img src=".assets/logos/Logo_Sekolah.png" alt="Logo Sekolah" width="250">
+  <img src="assets/logos/Logo_Sekolah.png" alt="Logo Sekolah" width="250">
 </p>
 
 # 🕒 Timeline
@@ -19,10 +19,10 @@ Kumpulan tugas Informatika di kelas **12-F1** sebagai arsip tugas-tugas **Web De
 
 **14/10/2025** — *Tugas koding pertama: Latihan CSS*  
 **File:**  
-[⬇️ Download TugasLatihanCSS_14-10-2025.zip](.assets/zips/TugasLatihanCSS_14-10-2025.zip)
+[⬇️ Download TugasLatihanCSS_14-10-2025.zip](assets/zips/TugasLatihanCSS_14-10-2025.zip)
 
 **Source Code:**  
-[Lihat Source Code Latihan CSS](.src/SourceCodeTugasLatihanCSS)
+[Lihat Source Code Latihan CSS](src/SourceCodeTugasLatihanCSS)
 
 <blockquote>
 Mempelajari implementasi CSS dalam HTML: Internal, External, dan Inline.
