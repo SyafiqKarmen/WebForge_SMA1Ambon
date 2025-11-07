@@ -1,16 +1,11 @@
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
-
-def tentang(request):
-    return HttpResponse('Halaman Tentang')
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse('Hello World!!!')
+    return render(request, 'index.html')  # render template
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tentang/', tentang),
-    path('index', index),
-    path('', index),  # <--- ini buat route utama (localhost:8000/)
+    path('', index),
 ]

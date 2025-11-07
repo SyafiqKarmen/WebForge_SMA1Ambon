@@ -54,7 +54,7 @@ ROOT_URLCONF = "project_sisfodik.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "project_sisfodik" / "templates"],  # sesuaikan folder
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
