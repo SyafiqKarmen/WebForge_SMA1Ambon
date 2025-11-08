@@ -1,3 +1,19 @@
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles tambahan */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Optional: custom animations */
+@layer components {
+  .all-\[unset\] { all: unset; }
+}
+
+.animate-fade-in { animation: fade-in 1s ease forwards; }
+@keyframes fade-in { 0% { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+/* Add other animations as needed */
+
