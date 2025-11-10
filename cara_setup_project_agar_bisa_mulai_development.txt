@@ -1,0 +1,32 @@
+DOWNLOAD GIT!!!!!!!!!!!!!!!!
+
+1. git clone https://github.com/SyafiqKarmen/WebForge_SMA1Ambon
+2. cd WebForge_SMA1Ambon
+
+DOWNLOAD PYTHON JIKA BELUM ADA
+python : https://www.python.org/downloads
+
+3. di terminal python -m venv env (aktifkan env setiap kali ingin menjalankan projek)
+4. env\Scripts\activate (mengaktifkan lingkungan virtual)
+
+DOWNLOAD DJANGO JIKA BELUM ADA
+
+5. pip install django==5.2.8 (install django dalam env (env))
+6. cd ke C:\Users\Pongo\WebForge_SMA1Ambon\src\Absen_Sedderhana-Kelompok_4 yang ada manage.py
+7. python manage.py runserver (untuk menjalankan server Django. pergi ke http://127.0.0.1:8000/ untuk ke tampilan website. untuk menghentikan server ctrl + c)
+
+DOWNLAOD NODE.JS KARENA TAILWIND MEMBUTUHKAN NODE.JS NPM
+node.js : https://nodejs.org/en/download (download yang msi pilih  yang windows, docker, npm)
+
+REINSTALL TAILWIND
+hapus : node_modules dan package-lock.json (KEDUA FILE INI TIDAK AKAN BERPENGARUH KE HASIL AKHIR, INI CUMA TOOLS YANG DIPAKAI YANG DIPERLUKAN)
+
+8. execute npm install didalam fodler frontend
+9. cd ke C:\Users\Pongo\WebForge_SMA1Ambon\src\Absen_Sedderhana-Kelompok_4\frontend (untuk mengaktifkan tailwind karena project ini menggunkana tailwind, pada dasarnya nanti css yang kita tambahkan ke file .html akan di compile ke output.css) (BUKA DI TERMINAL YANG BERBEDA DARI SERVER)
+10. npx tailwindcss -i .\input.css -o ..\project_sisfodik\static\css\output.css --watch  (execute ini didalam folder frontend)
+11. BUKA FOLDER WebForge_SMA1Amobn DI CODE EDITOR PILIHAN, BT PAKE SUBLIME LALU TINGGAL EDIT MENGGUNAKAN CSS TAILWIND DI FOLDER HTML DALAM FOLDER TEMPLATE YAITU index.html C:\Users\Pongo\WebForge_SMA1Ambon\src\Absen_Sedderhana-Kelompok_4\project_sisfodik\templates
+
+JIKA VERSI BERBEDA ANTARA KATONG YANG DEVELOP (CONTOH DI GUIDE INI DAJNGO 5.2.8 KALAU TIBA TIBA KAMONG DOWNLAOD ADA VERSI BARU 5.2.9 NANTI BISA RUSAK). CONTACT BT KARNA NANTI PERLU DI UPDATE BILANG VERSI VERSI YANG KAMONG DOWNLAOD
+
+
+ 
