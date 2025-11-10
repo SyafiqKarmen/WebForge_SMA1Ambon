@@ -57,16 +57,4 @@ Membuat tampilan frontend website menggunakan **Django templates** dan **Tailwin
 ---
 
 ## Panduan Setup & Development
-
-```bash
-# Masuk ke folder proyek
-cd C:\Users\LENOVO\WebForge_SMA1Ambon\src\Absen_Sedderhana-Kelompok_4\
-
-# Aktifkan virtual environment
-env\Scripts\activate
-
-# Jalankan Tailwind CSS watcher untuk development di terminal lain selain env
-npx tailwindcss -i ./input.css -o ./project_sisfodik/static/css/output.css --watch
-
-# Jalankan Django server
-python manage.py runserver
+[Cara Set Up Untuk Development] (cara_setup_project_agar_bisa_mulai_development.txt)
