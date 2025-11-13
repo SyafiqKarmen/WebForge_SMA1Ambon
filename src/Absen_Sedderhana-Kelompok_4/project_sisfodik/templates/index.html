@@ -6,51 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <style>
+        .logo-fixed {
+            width: 450px !important;
+            height: 450px !important;
+            max-width: none !important;
+            flex-shrink: 0 !important;
+        }
+        .logo-container {
+            position: relative;
+            left: -90px;
+        }
+        /* FORCE WIDTH - NO EXCUSES! */
+        .force-wide {
+            width: 90% !important;
+            max-width: 900px !important;
+        }
+        .force-wide-inputs {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+        .force-position-form{
+            position: relative;
+            left: -200px;
+        }
+    </style>
 </head>
-<body class="bg-[#9b1b30] w-full min-h-screen relative">
+<body class="bg-[#9b1b30] min-h-screen relative flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Layer Biru (diantara merah dan putih untuk design) -->
+    <!-- Blue background layer -->
     <div class="absolute right-0 bottom-0 w-full md:w-[97%] h-full md:h-[93%] bg-[#243a73] z-0"></div>
+    <div class="absolute right-0 bottom-0 w-full md:w-[89%] h-full md:h-[85%] bg-[#ffffff] z-0"></div>
 
-    <!--Container putih (Main Sign-In) -->
-    <div class="absolute right-0 bottom-0 flex flex-col md:flex-row w-full md:w-[89%] h-full md:h-[85%] bg-[#ffffff] overflow-hidden z-10">
+    <!-- Logo on the left -->
+    <div class="logo-container relative z-20 flex justify-center md:justify-start items-center w-full md:w-1/2 h-auto md:h-screen py-6 md:py-0 md:pl-12">
+        <img src="{% static 'img/LOGO_LOG_IN.png' %}" alt="Logo LOG IN" class="logo-fixed">
+    </div>
 
-        <!-- Kiri: Logo / Image -->
-        <div class="hidden md:flex absolute bottom-5 md:bottom-[25%] left-1/2 transform -translate-x-10 w-32 md:w-[45%] h-16 md:h-[70%] z-20">
-            <img src="{% static 'img/LOGO_LOG_IN.png' %}" alt="Logo LOG IN" class="w-3/4 h-auto">
-        </div>
-
-        <!-- Kanan: Sign In Form -->
-        <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-8 text-center md:text-left">Sign In</h1>
-
+    <!-- Form on the right -->
+    <div class="relative z-10 flex justify-start items-center w-full md:w-1/2 h-screen p-6 md:p-12 rounded-t-3xl md:rounded-none ">
+        <!-- FORCE WIDE CONTAINER -->
+        <div class="force-wide force-position-form">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-700 mb-8 text-center md:text-left">Sign In</h1>
             <form method="POST" class="flex flex-col gap-4">
                 {% csrf_token %}
-                <!-- Input Username -->
-                <div class="flex items-center px-4 py-3 bg-[#ececec] rounded-lg">
-                    <input type="text" name="username" placeholder="Username"
-                           class="w-full bg-transparent outline-none text-gray-700 text-lg md:text-2xl">
+                <!-- FORCE WIDE INPUTS -->
+                <div class="flex items-center px-4 py-3 bg-[#ececec] rounded-lg force-wide-inputs">
+                    <input type="text" name="username" placeholder="Username" class="w-full bg-transparent outline-none text-gray-700 text-lg md:text-2xl">
                 </div>
-                <!-- Input Password -->
-                <div class="flex items-center px-4 py-3 bg-[#ececec] rounded-lg">
-                    <input type="password" name="password" placeholder="Password"
-                           class="w-full bg-transparent outline-none text-gray-700 text-lg md:text-2xl">
+                <div class="flex items-center px-4 py-3 bg-[#ececec] rounded-lg force-wide-inputs">
+                    <input type="password" name="password" placeholder="Password" class="w-full bg-transparent outline-none text-gray-700 text-lg md:text-2xl">
                 </div>
-                <!-- Submit Button -->
-                <button type="submit"
-                        class="mt-4 py-3 bg-[#6161e6] text-white text-lg md:text-2xl rounded-lg hover:bg-[#4b4bcd] transition">
+                <button type="submit" class="mt-4 py-3 bg-[#6161e6] text-white text-lg md:text-2xl rounded-lg hover:bg-[#4b4bcd] transition force-wide-inputs">
                     Sign In
                 </button>
             </form>
-
-            <!-- Error Help Text -->
-            <p class="mt-6 text-center text-gray-400 text-sm md:text-base">
-                Mengalami Kesalahan? 
-                <span class="text-[#6161e6] cursor-pointer">disini</span> 
+            <p class="mt-6 text-center md:text- text-gray-400 text-sm md:text-base">
+               Mengalami Kesalahan?
+               <a href="{% url 'help' %}" class="text-[#6161e6] cursor-pointer">disini</a>
                 untuk bantuan
             </p>
         </div>
-
     </div>
 
 </body>

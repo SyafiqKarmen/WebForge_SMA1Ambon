@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pusat Bantuan</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Poly font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poly:ital@0;1&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --help-sidebar:#243A73; 
+        --help-red:#BA0013; 
+        --help-accent:#FFEA00;
+        --g1: rgba(36,58,115,.70); 
+        --g2: rgba(68,109,217,.70);
+      }
+      body{ font-family: "Poly", serif; }
+      .bg-help-sidebar{ background-color: var(--help-sidebar);}
+      .bg-help-red{ background-color: var(--help-red);}
+      .text-help-accent{ color: var(--help-accent);}
+      .gradient-panel{ background: linear-gradient(270deg, var(--g1) 0.73%, var(--g2) 98.58%);}
+      .rounded-30{ border-radius: 30px;}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col lg:flex-row bg-white">
+
+    <!-- Sidebar -->
+    <aside class="w-full lg:w-[302px] bg-help-sidebar flex-shrink-0">
+        <div class="absolute top-0 left-0 w-72 h-full bg-[#243a73] flex flex-col items-center py-8">
+    <h2 class="text-white text-xl font-bold mb-12">HISTORI KEHADIRAN</h2>
+    
+    <div class="w-[95%] ml-4">
+      <!-- ABSEN link -->
+      <a href="{% url 'dashboard' %}" class="block bg-[#243A73] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-[#FFEA00] hover:opacity-80">
+        <img src="{% static 'img/ABSEN.png' %}" class="w-4 h-4"/>
+        ABSEN
+      </a>
+
+      <!-- HISTORI link -->
+      <a href="{% url 'histori' %}" class="block bg-[#243A73] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-[#FFEA00] hover:opacity-50">
+        <img src="{% static 'img/HISTORI.png' %}" class="w-4 h-4"/>
+        HISTORI
+      </a>
+
+      <!-- LOGOUT link -->
+      <a href="{% url 'logout' %}" class="block bg-[#243A73] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-[#FFEA00] hover:opacity-80">
+        <img src="{% static 'img/LOGOUT.png' %}" class="w-4 h-4 rotate-180"/>
+        LOGOUT
+      </a>
+    </div>
+
+    <!-- User Info -->
+    <div class="mt-auto text-white text-base font-normal pr-20">
+      <p>USERNAME : {{ username }}</p>
+      <p>KELAS : {{ kelas }}</p>
+      <p>LOKASI : {{ lokasi }}</p>
+      <p class="inline mt-4">SMAN 1 AMBON</p>
+      <img src="{% static 'img/SMANSA.png' %}" class="inline w-5 h-5"/>
+    </div>
+  </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 gradient-panel min-h-screen p-6 lg:p-[37px]">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_447px] gap-6">
+
+            <!-- FAQ / Problems -->
+            <section class="bg-white rounded-30 p-6 lg:p-[37px]">
+                <h2 class="text-base mb-4">Masalah yang sering terjadi dan solusi</h2>
+                <div class="space-y-3 text-base leading-normal">
+                    <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit amet</p>
+                    <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit amet</p>
+                    <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit amet</p>
+                </div>
+                <a href="{% url 'izin' %}" class="mt-6 w-full lg:w-[299px] h-[65px] rounded-30 bg-help-sidebar text-white text-[32px] leading-[30px] inline-flex items-center justify-center">Izin</a>
+            </section>
+
+            <!-- Form -->
+            <section class="bg-[#D9D9D9] rounded-30 p-6 lg:p-[37px]">
+                <form method="post" class="space-y-5" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block mb-1 text-base">Username</label>
+                        <input name="username" type="text" class="w-full h-[53px] rounded-30 px-6 text-base outline-none"/>
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-base">Kelas</label>
+                        <input name="kelas" type="text" class="w-full h-[53px] rounded-30 px-6 text-base outline-none"/>
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-base">Deskripsi Masalah</label>
+                        <textarea name="deskripsi" class="w-full h-[132px] rounded-30 px-6 py-4 text-base resize-none outline-none"></textarea>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-base">Lampiran Optional</label>
+                        <input name="lampiran" type="file" class="ml-3"/>
+                    </div>
+                    <button class="w-full lg:w-[299px] h-[65px] rounded-30 bg-help-red text-white text-[32px] leading-[30px]">Submit Masalah</button>
+                </form>
+            </section>
+
+        </div>
+
+        <!-- Pengunguman / Announcements -->
+        <div class="mt-6">
+            <span class="inline-block bg-white rounded-30 px-6 py-2 text-base">Pengunguman</span>
+        </div>
+
+        <!-- List of Announcements -->
+        {% for item in announcements %}
+        <div class="mt-4">
+            <span class="inline-block bg-white rounded-30 px-6 py-2 text-base mb-2">{{ item.date }}</span>
+            <div class="bg-white rounded-30 p-6">
+                <h4 class="text-base mb-2">{{ item.title }}</h4>
+                <p class="text-base leading-normal">{{ item.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+</html>
