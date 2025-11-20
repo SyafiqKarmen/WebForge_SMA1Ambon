@@ -31,7 +31,7 @@ def izin_page(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='signin'),
-    path('dashboard/', dashboard, name='dashboard'),
+    path('dashboard/user/', dashboard, name='dashboard'),
     path('histori/', histori, name='histori'),
     path('logout/', logout_view, name='logout'),
     path('help/', help_page, name='help'),

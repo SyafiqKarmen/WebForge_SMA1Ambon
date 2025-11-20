@@ -2,37 +2,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Absen Kehadiran</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-b from-[#b70f00] to-[#9b1b30] w-full min-h-screen relative">
+  <meta charset="utf-8"/>
+  <title>Absen Kehadiran</title>
 
-  <!-- Left Sidebar -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Poly&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: "Poppins", sans-serif; }
+
+    .calendar-container { width: 100%; margin-top: 20px; }
+    .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 20px; width: 100%; }
+
+    .day-box {
+      background: white;
+      border-radius: 14px;
+      padding: 12px;
+      border: 1px solid #d3d3d3;
+      cursor: pointer;
+      transition: 0.15s;
+      height: 150px;
+      position: relative;
+      color: black;
+      font-family: "Poly", serif;
+    }
+    .day-box:hover { transform: translateY(-4px); border-color: #9b1b30; }
+    .day-box.past { opacity: 0.45; pointer-events: none; filter: grayscale(20%); }
+    .day-box.today { box-shadow: 0 6px 18px rgba(46,204,113,0.14); }
+    .day-box.selected { outline: 3px solid rgba(155,27,48,0.12); }
+
+    .weekday { position: absolute; top: 10px; left: 12px; font-size: 13px; opacity: 0.85; font-weight:600; }
+    .day-number { position: absolute; top: 52%; left: 50%; transform: translate(-50%,-50%); font-size: 34px; font-weight:700; }
+
+    .bottom-panel {
+      margin-top: 24px;
+      background: #243A73;
+      color: white;
+      padding: 24px;
+      border-radius: 12px;
+      width: 100%;
+    }
+
+    .material-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .timer-section {
+      background: black;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .timer-label {
+      font-size: 14px;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+    }
+
+    .timer-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .button-section {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .absen-btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      flex: 1;
+      text-align: center;
+    }
+
+    .absen-btn.gray { background: #6B7280; color: white; cursor: not-allowed; }
+    .absen-btn.orange { background: #F59E0B; color: white; }
+    .absen-btn.green { background: #10B981; color: white; }
+    .absen-btn.red { background: #EF4444; color: white; }
+
+    .status-section {
+      background: #374151;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .status-title {
+      font-size: 14px;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+    }
+
+    .status-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .status-value.green { color: #10B981; }
+    .status-value.blue { color: #3B82F6; }
+
+    .izin-btn {
+      background: #2563EB;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    .schedule-section {
+      background: #243A73;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+
+    .schedule-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .schedule-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .schedule-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .schedule-time {
+      background: #9b1b30;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .schedule-subject {
+      font-weight: 500;
+      color: white;
+      flex: 1;
+    }
+
+    .current-schedule {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10B981;
+    }
+
+    .completed-schedule {
+      background: rgba(156, 163, 175, 0.2);
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-[#b70f00] to-[#9b1b30] min-h-screen relative">
+
+  <!-- Sidebar -->
   <div class="absolute top-0 left-0 w-72 h-full bg-[#243a73] flex flex-col items-center py-8">
     <h2 class="text-white text-xl font-bold mb-12">ABSEN KEHADIRAN</h2>
-    
     <div class="w-[95%] ml-4">
-      <!-- ABSEN link -->
       <a href="{% url 'dashboard' %}" class="block bg-[#9b1b30] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-white hover:opacity-80">
-        <img src="{% static 'img/ABSEN.png' %}" class="w-4 h-4"/>
-        ABSEN
+        <img src="{% static 'img/ABSEN.png' %}" class="w-4 h-4"/> ABSEN
       </a>
-
-      <!-- HISTORI link -->
       <a href="{% url 'histori' %}" class="block bg-[#243A73] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-[#FFEA00] hover:opacity-50">
-        <img src="{% static 'img/HISTORI.png' %}" class="w-4 h-4"/>
-        HISTORI
+        <img src="{% static 'img/HISTORI.png' %}" class="w-4 h-4"/> HISTORI
       </a>
-
-      <!-- LOGOUT link -->
       <a href="{% url 'logout' %}" class="block bg-[#243A73] rounded-l-full px-4 py-2 mb-4 flex items-center gap-2 text-[#FFEA00] hover:opacity-80">
-        <img src="{% static 'img/LOGOUT.png' %}" class="w-4 h-4 rotate-180"/>
-        LOGOUT
+        <img src="{% static 'img/LOGOUT.png' %}" class="w-4 h-4 rotate-180"/> LOGOUT
       </a>
     </div>
-
-    <!-- User Info -->
     <div class="mt-auto text-white text-base font-normal pr-20">
       <p>USERNAME : {{ username }}</p>
       <p>KELAS : {{ kelas }}</p>
@@ -42,17 +205,568 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="ml-72 md:h-full p-8 relative bg-black">
-    
-    <!-- Top Date -->
-    <div class="text-white text-xl mb-6">
-      {{ date_display }}
+  <!-- Main -->
+  <div class="ml-72 p-8">
+
+    <div class="text-white text-xl mb-6">{{ date_display }}</div>
+
+    <!-- Calendar -->
+    <div class="calendar-container">
+      <div class="week-grid" id="weekDays"></div>
+
+      <div class="flex mt-5 items-center justify-center gap-4 text-white">
+        <img id="prevWeek" src="{% static 'img/arrow-left.png' %}" class="w-6 h-6 cursor-pointer">
+        <div id="currentWeekLabel" class="font-semibold"></div>
+        <img id="nextWeek" src="{% static 'img/arrow-right.png' %}" class="w-6 h-6 cursor-pointer">
+      </div>
     </div>
 
-    <!-- Lessons -->
-    
-    
+    <!-- Updated bottom panel to match PNG -->
+    <div class="bottom-panel" id="detailPanel">
+
+      <div id="materialTitle" class="material-title">Pilih tanggal</div>
+
+      <div id="timeArea" style="display:none;">
+        <!-- Timer Section -->
+        <div class="timer-section">
+          <div class="timer-label">Batas Waktu Absen</div>
+          <div class="timer-value" id="remainingText">--:--:--</div>
+        </div>
+
+        <!-- Button Section -->
+        <div class="button-section">
+          <a href="/izin/" class="izin-btn">Izin</a>
+          <button id="absenBtn" class="absen-btn gray">Hadir</button>
+        </div>
+
+        <!-- Status Section -->
+        <div class="status-section">
+          <div class="status-title">STATUS PELAJARAN INI</div>
+          <div id="statusBox" class="status-value">Belum Mulai</div>
+        </div>
+
+        <!-- Schedule Section -->
+        <div class="schedule-section">
+          <div class="schedule-title">Jadwal Pelajaran Hari Ini</div>
+          <div id="scheduleList" class="schedule-list">
+            <!-- Schedule items will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
+<script>
+const tz = "Asia/Jayapura";
+
+// Jadwal mata pelajaran berdasarkan hari dengan batas waktu absen
+const scheduleByDay = {
+  1: [ // Senin
+    { 
+      time: "08:00", 
+      subject: "Matematika Wajib", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen hanya 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Bahasa Indonesia", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    }
+  ],
+  2: [ // Selasa
+    { 
+      time: "08:00", 
+      subject: "Agama", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Fisika", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    },
+    { 
+      time: "10:00", 
+      subject: "PKWU", 
+      endTime: "11:00",
+      attendanceEndTime: "10:20" // Batas absen 20 menit pertama
+    }
+  ],
+  3: [ // Rabu
+    { 
+      time: "08:00", 
+      subject: "Bahasa Inggris Wajib", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Bahasa Inggris Tingkat Lanjut", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    }
+  ],
+  4: [ // Kamis
+    { 
+      time: "08:00", 
+      subject: "Fisika", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Matematika Tingkat Lanjut", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    },
+    { 
+      time: "10:00", 
+      subject: "Informatika", 
+      endTime: "11:00",
+      attendanceEndTime: "11:00" // Batas absen 20 menit pertama
+    }
+  ],
+  5: [ // Jumat
+    { 
+      time: "08:00", 
+      subject: "PKN", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Seni Budaya", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    },
+    { 
+      time: "10:00", 
+      subject: "Sejarah", 
+      endTime: "11:00",
+      attendanceEndTime: "10:20" // Batas absen 20 menit pertama
+    }
+  ],
+  6: [ // Sabtu
+    { 
+      time: "08:00", 
+      subject: "PJOK", 
+      endTime: "09:00",
+      attendanceEndTime: "08:30" // Batas absen 30 menit pertama
+    },
+    { 
+      time: "09:00", 
+      subject: "Informatika", 
+      endTime: "10:00",
+      attendanceEndTime: "09:20" // Batas absen 20 menit pertama
+    },
+    { 
+      time: "10:00", 
+      subject: "Matematika Tingkat Lanjut", 
+      endTime: "11:00",
+      attendanceEndTime: "10:20" // Batas absen 20 menit pertama
+    }
+  ]
+};
+
+// Generate unique tokens for each class session
+function generateClassToken(date, subject, time) {
+  // Create a unique token based on date, subject, and time
+  const tokenData = `${date}-${subject}-${time}-{{ username }}-{{ kelas }}`;
+  let hash = 0;
+  for (let i = 0; i < tokenData.length; i++) {
+    const char = tokenData.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash).toString(36) + Date.now().toString(36);
+}
+
+function nowInTZ() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year:"numeric",month:"2-digit",day:"2-digit",
+    hour:"2-digit",minute:"2-digit",second:"2-digit",
+    hour12:false
+  }).formatToParts(new Date());
+
+  const map = {}; for (const p of parts) map[p.type] = p.value;
+  return new Date(Date.UTC(map.year, map.month-1, map.day, map.hour, map.minute, map.second));
+}
+
+function ymdString(dateObj) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(dateObj);
+}
+
+function makeDateInTZ(y,m,d,hh=0,mi=0,ss=0) {
+  const iso = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}T${String(hh).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(ss).padStart(2,'0')}Z`;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year:"numeric",month:"2-digit",day:"2-digit",
+    hour:"2-digit",minute:"2-digit",second:"2-digit",
+    hour12:false
+  }).formatToParts(new Date(iso));
+
+  const map={}; for(const p of parts) map[p.type]=p.value;
+  return new Date(Date.UTC(map.year,map.month-1,map.day,map.hour,map.minute,map.second));
+}
+
+function todayYMD(){ return ymdString(new Date()); }
+
+function startOfWeekFor(dateObj){
+  const ymd = ymdString(dateObj);
+  const [y,m,d]=ymd.split("-").map(Number);
+  const dt = makeDateInTZ(y,m,d,0,0,0);
+  const wk = new Date(dt).getUTCDay();
+  const start=new Date(dt);
+  start.setUTCDate(start.getUTCDate()-wk);
+  return start;
+}
+
+function getWeekDatesFrom(start){ 
+  const arr=[]; 
+  for(let i=0;i<7;i++){ 
+    const d=new Date(start); 
+    d.setUTCDate(d.getUTCDate()+i); 
+    arr.push(d); 
+  } 
+  return arr;
+}
+
+const weekGrid=document.getElementById("weekDays");
+const prevBtn=document.getElementById("prevWeek");
+const nextBtn=document.getElementById("nextWeek");
+const currentWeekLabel=document.getElementById("currentWeekLabel");
+
+let nowTz=nowInTZ();
+let weekStart=startOfWeekFor(nowTz);
+
+function getScheduleForDate(dateObj) {
+  const dayOfWeek = dateObj.getUTCDay(); // 0 = Minggu, 1 = Senin, dst.
+  return scheduleByDay[dayOfWeek] || [];
+}
+
+function renderWeek(){
+  weekGrid.innerHTML="";
+  const startY=ymdString(weekStart);
+  const end=new Date(weekStart); end.setUTCDate(end.getUTCDate()+6);
+  const endY=ymdString(end);
+  currentWeekLabel.textContent=`${startY} - ${endY}`;
+
+  const dates=getWeekDatesFrom(weekStart);
+  const today=todayYMD();
+
+  for(const d of dates){
+    const ymd=ymdString(d);
+    const box=document.createElement("div");
+    box.className="day-box";
+
+    if(ymd===today) box.classList.add("today");
+
+    const dDate=new Date(d);
+    const todayDateUTC=makeDateInTZ(...today.split("-").map(Number),0,0,0);
+    if(dDate.getTime()<todayDateUTC.getTime()){
+      box.classList.add("past");
+    }
+
+    const weekday=new Intl.DateTimeFormat("en-US",{timeZone:tz,weekday:"short"}).format(d);
+    const daynum=new Intl.DateTimeFormat("en-US",{timeZone:tz,day:"2-digit"}).format(d);
+
+    box.innerHTML = `
+      <div class="weekday">${weekday}</div>
+      <div class="day-number">${parseInt(daynum)}</div>
+    `;
+
+    box.addEventListener("click", () => {
+      selectDate(ymd);
+      document.querySelectorAll(".day-box").forEach(e=>e.classList.remove("selected"));
+      box.classList.add("selected");
+    });
+
+    weekGrid.appendChild(box);
+  }
+}
+
+const materialTitle=document.getElementById("materialTitle");
+const timeArea=document.getElementById("timeArea");
+const remainingText=document.getElementById("remainingText");
+const absenBtn=document.getElementById("absenBtn");
+const statusBox=document.getElementById("statusBox");
+const scheduleList=document.getElementById("scheduleList");
+
+let selectedDate=null;
+let currentClassIndex = -1;
+let timerInterval=null;
+let classTimerInterval=null;
+
+function getCurrentClass(ymd) {
+  const dateObj = new Date(ymd + 'T00:00:00Z');
+  const dayOfWeek = dateObj.getUTCDay();
+  const schedule = scheduleByDay[dayOfWeek];
+  
+  if (!schedule || schedule.length === 0) {
+    return { class: null, index: -1 };
+  }
+  
+  const now = nowInTZ();
+  const currentTime = now.getUTCHours().toString().padStart(2, '0') + ':' + 
+                     now.getUTCMinutes().toString().padStart(2, '0');
+  
+  // Find the current active class
+  for (let i = 0; i < schedule.length; i++) {
+    const classItem = schedule[i];
+    if (currentTime >= classItem.time && currentTime < classItem.endTime) {
+      return { class: classItem, index: i };
+    }
+  }
+  
+  // Find the next upcoming class
+  for (let i = 0; i < schedule.length; i++) {
+    if (schedule[i].time > currentTime) {
+      return { class: schedule[i], index: i };
+    }
+  }
+  
+  // If all classes have passed, return the last one (but marked as completed)
+  return { class: schedule[schedule.length - 1], index: schedule.length - 1, isCompleted: true };
+}
+
+function renderSchedule(ymd) {
+  const dateObj = new Date(ymd + 'T00:00:00Z');
+  const dayOfWeek = dateObj.getUTCDay();
+  const schedule = scheduleByDay[dayOfWeek];
+  
+  scheduleList.innerHTML = '';
+  
+  if (!schedule || schedule.length === 0) {
+    scheduleList.innerHTML = '<div class="schedule-item"><div class="schedule-subject">Tidak ada jadwal pelajaran</div></div>';
+    return;
+  }
+  
+  const now = nowInTZ();
+  const currentTime = now.getUTCHours().toString().padStart(2, '0') + ':' + 
+                     now.getUTCMinutes().toString().padStart(2, '0');
+  
+  const currentClassInfo = getCurrentClass(ymd);
+  
+  schedule.forEach((item, index) => {
+    const scheduleItem = document.createElement('div');
+    scheduleItem.className = 'schedule-item';
+    
+    const isCurrentClass = index === currentClassInfo.index;
+    const isCompleted = currentTime >= item.endTime || (currentClassInfo.isCompleted && index <= currentClassInfo.index);
+    
+    if (isCurrentClass && !isCompleted) {
+      scheduleItem.classList.add('current-schedule');
+    } else if (isCompleted) {
+      scheduleItem.classList.add('completed-schedule');
+    }
+    
+    // Tampilkan batas waktu absen di jadwal
+    const attendanceEndTime = item.attendanceEndTime || item.endTime;
+    scheduleItem.innerHTML = `
+      <div class="schedule-time">${item.time}</div>
+      <div class="schedule-subject">${item.subject}</div>
+      <div class="schedule-time">Batas: ${attendanceEndTime}</div>
+    `;
+    
+    scheduleList.appendChild(scheduleItem);
+  });
+}
+
+function selectDate(ymd){
+  selectedDate=ymd;
+  timeArea.style.display="block";
+
+  // Render schedule in the bottom panel
+  renderSchedule(ymd);
+
+  // Start checking for current class
+  updateCurrentClass(ymd);
+
+  if (classTimerInterval) clearInterval(classTimerInterval);
+  classTimerInterval = setInterval(() => updateCurrentClass(ymd), 30000); // Check every 30 seconds
+}
+
+function updateCurrentClass(ymd) {
+  const currentClassInfo = getCurrentClass(ymd);
+  
+  if (!currentClassInfo.class) {
+    materialTitle.textContent = "Tidak ada pelajaran";
+    remainingText.textContent = "--:--:--";
+    absenBtn.className = "absen-btn gray";
+    absenBtn.disabled = true;
+    statusBox.className = "status-value";
+    statusBox.textContent = "Tidak ada pelajaran";
+    return;
+  }
+
+  const now = nowInTZ();
+  const currentTime = now.getUTCHours().toString().padStart(2, '0') + ':' + 
+                     now.getUTCMinutes().toString().padStart(2, '0');
+  
+  const [y, m, d] = ymd.split("-").map(Number);
+  const [classHour, classMinute] = currentClassInfo.class.time.split(":").map(Number);
+  
+  // Gunakan attendanceEndTime untuk batas waktu absen
+  const attendanceEndTime = currentClassInfo.class.attendanceEndTime || currentClassInfo.class.endTime;
+  const [attendanceEndHour, attendanceEndMinute] = attendanceEndTime.split(":").map(Number);
+  
+  const classStart = makeDateInTZ(y, m, d, classHour, classMinute, 0);
+  const attendanceEnd = makeDateInTZ(y, m, d, attendanceEndHour, attendanceEndMinute, 0);
+  
+  materialTitle.textContent = currentClassInfo.class.subject;
+  
+  // Generate unique token for this class session
+  const classToken = generateClassToken(ymd, currentClassInfo.class.subject, currentClassInfo.class.time);
+  
+  // Periksa apakah masih dalam batas waktu absen
+  const isAttendanceActive = currentTime >= currentClassInfo.class.time && currentTime < attendanceEndTime;
+  const isClassCompleted = currentTime >= currentClassInfo.class.endTime;
+  const isClassFuture = currentTime < currentClassInfo.class.time;
+  
+  const clicked = localStorage.getItem(`absen_${ymd}_${currentClassInfo.index}`) === "1";
+  
+  if (isClassFuture) {
+    // Class hasn't started yet
+    const timeUntilStart = classStart.getTime() - now.getTime();
+    remainingText.textContent = formatDurationHuman(timeUntilStart);
+    absenBtn.className = "absen-btn gray";
+    absenBtn.textContent = "Hadir";
+    absenBtn.disabled = true;
+    statusBox.className = "status-value";
+    statusBox.textContent = "Belum Mulai";
+  } 
+  else if (isAttendanceActive) {
+    // Attendance period is active
+    const timeUntilEnd = attendanceEnd.getTime() - now.getTime();
+    remainingText.textContent = formatDurationHuman(timeUntilEnd);
+    
+    if (clicked) {
+      absenBtn.className = "absen-btn green";
+      absenBtn.textContent = "Sudah Hadir";
+      absenBtn.disabled = true;
+      statusBox.className = "status-value green";
+      statusBox.textContent = "Hadir - " + classToken.substring(0, 8);
+    } else {
+      absenBtn.className = "absen-btn orange";
+      absenBtn.textContent = "Hadir Sekarang";
+      absenBtn.disabled = false;
+      statusBox.className = "status-value blue";
+      statusBox.textContent = "Aktif - Absen tersedia";
+    }
+  } 
+  else {
+    // Attendance period has ended (but class might still be ongoing)
+    remainingText.textContent = "00:00:00";
+    
+    if (clicked) {
+      absenBtn.className = "absen-btn green";
+      absenBtn.textContent = "Sudah Hadir";
+      absenBtn.disabled = true;
+      statusBox.className = "status-value green";
+      statusBox.textContent = "Hadir - " + classToken.substring(0, 8);
+    } else {
+      absenBtn.className = "absen-btn red";
+      absenBtn.textContent = "Tidak Hadir";
+      absenBtn.disabled = true;
+      statusBox.className = "status-value";
+      statusBox.textContent = "Tidak Hadir (Batas waktu habis)";
+    }
+  }
+  
+  // Update schedule display
+  renderSchedule(ymd);
+}
+
+function formatDurationHuman(ms) {
+  if (ms < 0) ms = 0;
+  const s = Math.floor(ms / 1000);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
+absenBtn.addEventListener("click", () => {
+  if (!selectedDate) return;
+  
+  const currentClassInfo = getCurrentClass(selectedDate);
+  if (!currentClassInfo.class) return;
+  
+  const now = nowInTZ();
+  const currentTime = now.getUTCHours().toString().padStart(2, '0') + ':' + 
+                     now.getUTCMinutes().toString().padStart(2, '0');
+  
+  // Gunakan attendanceEndTime untuk pengecekan
+  const attendanceEndTime = currentClassInfo.class.attendanceEndTime || currentClassInfo.class.endTime;
+  
+  // Check if within attendance period
+  const isAttendanceActive = currentTime >= currentClassInfo.class.time && currentTime < attendanceEndTime;
+  
+  if (isAttendanceActive) {
+    // Generate unique token for this attendance
+    const classToken = generateClassToken(selectedDate, currentClassInfo.class.subject, currentClassInfo.class.time);
+    
+    // Save attendance with unique key for this specific class
+    localStorage.setItem(`absen_${selectedDate}_${currentClassInfo.index}`, "1");
+    
+    // Send attendance data to server (simulated)
+    sendAttendanceToServer(selectedDate, currentClassInfo.class, classToken);
+    
+    // Update UI immediately
+    updateCurrentClass(selectedDate);
+    
+    alert(`Absen berhasil!\nMata Pelajaran: ${currentClassInfo.class.subject}\nToken: ${classToken}`);
+  } else {
+    alert("Batas waktu absen sudah habis!");
+  }
+});
+
+// Simulate sending attendance data to server
+function sendAttendanceToServer(date, classInfo, token) {
+  const attendanceData = {
+    date: date,
+    subject: classInfo.subject,
+    time: classInfo.time,
+    attendanceEndTime: classInfo.attendanceEndTime || classInfo.endTime,
+    username: "{{ username }}",
+    kelas: "{{ kelas }}",
+    lokasi: "{{ lokasi }}",
+    token: token,
+    timestamp: new Date().toISOString()
+  };
+  
+  console.log("Mengirim data absen ke server:", attendanceData);
+  
+  // Here you would typically send data to your backend
+  // fetch('/api/attendance', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(attendanceData)
+  // });
+}
+
+renderWeek();
+
+prevBtn.addEventListener("click",()=>{
+  weekStart.setUTCDate(weekStart.getUTCDate()-7);
+  renderWeek();
+});
+nextBtn.addEventListener("click",()=>{
+  weekStart.setUTCDate(weekStart.getUTCDate()+7);
+  renderWeek();
+});
+
+setTimeout(()=>{
+  const today=todayYMD();
+  document.querySelectorAll(".day-box.today:not(.past)").forEach(x=>x.click());
+},80);
+</script>
+
 </body>
 </html>
